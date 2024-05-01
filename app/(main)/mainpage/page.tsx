@@ -1,75 +1,127 @@
 "use client";
 import Footer from "@/components/footer";
+import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { useSelectedNavigation } from "next/navigation";
 import { Card as UICard } from "@/components/ui/card";
+import React, { useState } from "react";
 
-const CardDetail = ({ card }) => {
-  // ... 상세 정보 페이지로 이동하는 함수 ...
-};
-
-const Card = ({ card }) => (
+const Card = ({ card, onCardSelect, isCenter }) => (
   <UICard
-    key=
-    className="p-4 bg-white rounded-lg shadow-md"
-    onClick={() => alert("상세 페이지로 이동")} // 상세 페이지로 이동하는 함수를 여기에 넣습니다.
-    style={{ width: "275px", height: "350px" }}
+    className={`p-4 bg-white rounded-lg shadow-md transform transition-transform ${
+      isCenter ? "scale-100 cursor-default" : "scale-90 cursor-pointer"
+    }`}
+    onClick={onCardSelect}
+    style={{ width: "275px", height: "350px", borderRadius: "15%" }}
   >
     <img
+      src={card.image}
       alt="프로필 이미지"
       className="rounded-t-lg h-48 w-full object-cover"
     />
-    <h2 className="text-xl font-semibold"></h2>
-    <p></p>
-    <button className="mt-4 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700">
-      이야기하기
-    </button>
+    <p>{card.title}</p>
+    <p>{card.text}</p>
   </UICard>
 );
 const MainPage = () => {
   const [cards] = useState([
     {
       id: 1,
-      title: "그림",
-      text: "팀원에게 필요한 고민들 언제든 듣고 도와요. 사이드 프로젝트를 하다가 생기는 가벼운 고민, 수익화 등 언제든 환영해요.",
+      title: "프로필 이름1",
+      text: "짧은 소개",
+      detail: "자세한 정보1",
+      image: "path_to_image_1.jpg",
+      uploadedTime: "2023-04-17 14:00",
     },
     {
       id: 2,
-      title: "그림",
-      text: "팀원에게 필요한 고민들 언제든 듣고 도와요. 사이드 프로젝트를 하다가 생기는 가벼운 고민, 수익화 등 언제든 환영해요.",
+      title: "프로필 이름2",
+      text: "짧은 소개",
+      detail: "자세한 정보2",
+      image: "path_to_image_2.jpg",
+      uploadedTime: "2023-04-18 09:30",
     },
     {
       id: 3,
-      title: "그림",
-      text: "팀원에게 필요한 고민들 언제든 듣고 도와요. 사이드 프로젝트를 하다가 생기는 가벼운 고민, 수익화 등 언제든 환영해요.",
+      title: "프로필 이름3",
+      text: "짧은 소개",
+      detail: "자세한 정보3",
+      image: "path_to_image_3.jpg",
+      uploadedTime: "2023-04-19 16:45",
     },
     {
       id: 4,
-      title: "그림",
-      text: "팀원에게 필요한 고민들 언제든 듣고 도와요. 사이드 프로젝트를 하다가 생기는 가벼운 고민, 수익화 등 언제든 환영해요.",
+      title: "프로필 이름4",
+      text: "짧은 소개",
+      detail: "자세한 정보4",
+      image: "path_to_image_4.jpg",
+      uploadedTime: "2023-04-20 12:00",
     },
   ]);
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const containerWidth = cards.length * (275 + 20) - 20;
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === cards.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? cards.length - 1 : prev - 1));
+  };
+
+  const handleCardSelect = (index) => {
+    if (index === currentSlide) {
+      alert("상세 페이지로 이동");
+    } else {
+      setCurrentSlide(index);
+    }
+  };
+
+  const cardElements = cards.map((card, index) => (
+    <div key={card.id} className="slide relative" style={{ width: "275px" }}>
+      <Card
+        card={card}
+        onCardSelect={() => handleCardSelect(index)}
+        isCenter={index === currentSlide}
+      />
+    </div>
+  ));
+
+  const containerStyle = {
+    transform: `translateX(calc(50vw - ${
+      275 / 2 + currentSlide * (275 + 20)
+    }px))`,
+    transition: "transform 300ms ease-out",
+    display: "flex",
+    width: `${containerWidth}px`,
+  };
+
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h1 className="color bg- text-4xl font-bold mb-8">
-        PEER 사이드 프로젝트 친구상담
-      </h1>
-      <div className="w-full max-w-md space-y-4">
-        {cards.map((card) => (
-          <Card
-            key={card.id}
-            className="p-4 bg-white rounded-lg shadow-md"
-            onClick={() => navigateToCardDetail(card)}
+    <main className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
+      <Header currentPage="MainPage" style={{ margin: "20px" }} />
+      <p className="my-4 py-4 px-4 w-full border bg-gray-100 text-black hover:bg-blue-100 text-center rounded-xl border-transparent">
+        {cards[currentSlide].uploadedTime}
+      </p>
+      <div className="w-full max-w-md space-y-4 overflow-hidden">
+        <div
+          className="flex transition-transform duration-300 ease-out"
+          style={containerStyle}
+        >
+          {cardElements}
+        </div>
+        <hr className="my-4" />
+        <div className="text-center">
+          <p className="text-gray-600">{cards[currentSlide].detail}</p>
+          <hr className="my-4" />
+          <Button
+            onClick={() => alert("상세 페이지로 이동")}
+            className="mt-4 py-2 px-4 w-full border border-black bg-transparent text-black rounded hover:bg-blue-100"
           >
-            <div className="flex flex-col items-center">
-              <h2 className="text-xl font-semibold">{card.title}</h2>
-              <p>{card.text}</p>
-            </div>
-          </Card>
-        ))}
+            이야기하기
+          </Button>
+        </div>
       </div>
       <Footer />
     </main>
