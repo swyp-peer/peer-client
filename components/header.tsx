@@ -1,4 +1,4 @@
-//heade
+//header
 import React from "react";
 import Link from "next/link";
 import { BellIcon } from "@heroicons/react/24/solid";
