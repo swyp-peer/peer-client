@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { Card as UICard } from "@/components/ui/card";
 import React, { useState } from "react";
+import styles from "../mainpage/mainpage.module.css";
 
 const Card = ({ card, onCardSelect, isCenter }) => (
   <UICard

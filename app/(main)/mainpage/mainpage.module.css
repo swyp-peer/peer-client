@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px; /* 컨테이너 패딩 */
+}
+
+.card {
+  flex: 0 0 275px; /* flex-basis 설정으로 카드 너비 고정 */
+  height: 350px;
+  margin: 10px;
+  border-radius: 15%;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+@media (min-width: 1024px) {
+  .container {
+    display: flex;
+    flex-direction: row; /* 사이드바와 메인 컨텐츠를 행으로 배치 */
+    padding: 20px; /* 컨테이너 내부 여백 */
+  }
+
+  .sidebar {
+    width: 200px; /* 사이드바 너비 */
+    margin-right: 20px; /* 사이드바와 메인 컨테이너 사이 간격 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cards-container {
+    flex: 1; /* 남은 공간 모두 사용 */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2열로 카드 배열 */
+    gap: 20px; /* 카드 간 간격 */
+  }
+}
+
+@media (max-width: 1023px) {
+  .sidebar {
+    display: none; /* 1024px 미만에서는 사이드바를 숨김 */
+  }
+}
