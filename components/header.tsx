@@ -11,6 +11,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ currentPage, style }) => {
   return (
     <div
+      className="header"
       style={{
         display: "flex",
         alignItems: "center",

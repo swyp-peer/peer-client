@@ -62,16 +62,6 @@ const MainPage = () => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const containerWidth = cards.length * (275 + 20) - 20;
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === cards.length - 1 ? 0 : prev + 1));
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? cards.length - 1 : prev - 1));
-  };
-
   const handleCardSelect = (index) => {
     if (index === currentSlide) {
       alert("상세 페이지로 이동");
@@ -90,26 +80,26 @@ const MainPage = () => {
     </div>
   ));
 
+  const slideWidth = 275 + 20; // 카드 너비 + 마진
+
   const containerStyle = {
+    width: `${cards.length * slideWidth}px`, // 모든 카드를 포함할 수 있는 충분한 너비
     transform: `translateX(calc(50vw - ${
-      275 / 2 + currentSlide * (275 + 20)
+      slideWidth * currentSlide + slideWidth / 2
     }px))`,
     transition: "transform 300ms ease-out",
-    display: "flex",
-    width: `${containerWidth}px`,
   };
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
-      <Header currentPage="MainPage" style={{ margin: "20px" }} />
+      <div className="header">
+        <Header currentPage="MainPage" style={{ margin: "20px" }} />
+      </div>
       <p className="my-4 py-4 px-4 w-full border bg-gray-100 text-black hover:bg-blue-100 text-center rounded-xl border-transparent">
         {cards[currentSlide].uploadedTime}
       </p>
-      <div className="w-full max-w-md space-y-4 overflow-hidden">
-        <div
-          className="flex transition-transform duration-300 ease-out"
-          style={containerStyle}
-        >
+      <div className="w-full max-w-md overflow-hidden">
+        <div className={styles.cardsgrid} style={containerStyle}>
           {cardElements}
         </div>
         <hr className="my-4" />
@@ -124,7 +114,9 @@ const MainPage = () => {
           </Button>
         </div>
       </div>
-      <Footer />
+      <div className="header">
+        <Footer />
+      </div>
     </main>
   );
 };
