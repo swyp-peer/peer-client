@@ -1,5 +1,11 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import styles from "./result.module.css";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
@@ -8,6 +14,15 @@ import { Input } from "@/components/ui/input";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { api } from "@/lib/api";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const ReservePage = ({ params }: { params: { id: string } }) => {
   const infoRef = useRef<HTMLDivElement>(null);
@@ -67,19 +82,26 @@ const ReservePage = ({ params }: { params: { id: string } }) => {
       <section>
         <Card className="border-none sm:border-solid">
           <CardHeader>
-            <CardTitle>상담 신청</CardTitle>
-            <hgroup className="max-w-[450px]">
-              <h2>풍월량</h2>
-              <p>
-                팀원에게 말 못할 고민을 언제든지 털어 놓으세요. 사이드
-                프로젝트를 하다가 생기는 가벼운 고민, 수익화 등등 무엇이든
-                환영합니다.
-              </p>
-              <ul>
-                <li>분야: 기획자</li>
-                <li>유형: 스타트업</li>
-              </ul>
-            </hgroup>
+            <CardTitle className="text-xl">상담 신청</CardTitle>
+            <CardDescription className="pt-5 flex gap-5">
+              <Avatar className="w-24 h-24">
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>풍월량</AvatarFallback>
+              </Avatar>
+              <div>
+                <hgroup className="text-zinc-700">
+                  <div className="flex items-end gap-2">
+                    <h2 className="text-2xl font-semibold">풍월량</h2>
+                    <span className="text-zinc-500 mb-1">10년차 기획자</span>
+                  </div>
+                  <h3 className="text-md max-w-60">
+                    팀원에게 말 못할 고민들 언제든 털어 놓으세요. 사이드
+                    프로젝트를 하다가 생기는 가벼운 고민, 수익화 등등 언제든
+                    환영해요.
+                  </h3>
+                </hgroup>
+              </div>
+            </CardDescription>
           </CardHeader>
           <CardContent className="flex2 flex-col">
             <input type="number" value={pm} className="hidden" />
@@ -428,11 +450,31 @@ const ReservePage = ({ params }: { params: { id: string } }) => {
                           onClick={() => setInfo((cur) => !cur)}
                         />
                       </button>
+
                       <span className="ml-1 flex items-center">
                         개인정보수집 이용 동의서
                       </span>
                     </div>
-                    <span className="cursor-pointer">보기</span>
+                    <Dialog>
+                      <DialogTrigger>보기</DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>개인정보수집 이용동의서</DialogTitle>
+                          <DialogDescription className="pt-5">
+                            Peer 서비스의 개인정보 수집 이용 목적은 상담, 알림,
+                            이벤트를 위해 사용됩니다.
+                            개인정보(성함,연락처,메일주소 등)를 수집해야 합니다.
+                            또한 작성한 리뷰는 자사의 광고 목적으로 사용될 수
+                            있습니다. 또한 수집일로부터 2년동안 개인정보를 보유,
+                            이용합니다.
+                            <br />
+                            <br /> 개인정보의 수집 및 이용에 대한 동의를 거부할
+                            수 있으며, 해당 경우에는 Peer 서비스 이용이 불가 할
+                            수 있습니다.
+                          </DialogDescription>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </article>
                 <article className="flex2">
