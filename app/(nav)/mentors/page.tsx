@@ -12,13 +12,12 @@ const Card = ({ card, onCardSelect }) => (
   <div className={styles.card} onClick={onCardSelect}>
     <img src={card.image} alt="프로필 이미지" />
     <div className={styles.cardcontent}>
+      <p className={styles.hiddensm}>{card.uploadedTime}</p>
       <p>{card.title}</p>
       <p>{card.text}</p>
       <p className={styles.hiddensm}>{card.detail}</p>
-      <p className={styles.hiddensm}>{card.uploadedTime}</p>
-      <div className={styles.hiddensm}>
-        <Button>이야기하기</Button>
-      </div>
+
+      <div className={styles.hiddensm}></div>
     </div>
   </div>
 );
@@ -46,8 +45,24 @@ const MainPage = () => {
       title: "프로필 이름3",
       text: "짧은 소개",
       detail: "자세한 정보3",
-      image: "path_to_image_3.jpg",
+      image: "https://github.com/shadcn.png",
       uploadedTime: "2023-04-19 16:45",
+    },
+    {
+      id: 4,
+      title: "프로필 이름4",
+      text: "짧은 소개",
+      detail: "자세한 정보4",
+      image: "path_to_image_4.jpg",
+      uploadedTime: "2023-04-20 12:00",
+    },
+    {
+      id: 4,
+      title: "프로필 이름4",
+      text: "짧은 소개",
+      detail: "자세한 정보4",
+      image: "path_to_image_4.jpg",
+      uploadedTime: "2023-04-20 12:00",
     },
     {
       id: 4,
@@ -98,8 +113,8 @@ const MainPage = () => {
     >
       <div className={styles.detailscontainer}>
         <p
-          className="my-1 py-4 px-4 w-full border bg-gray-100 text-black hover:bg-blue-100 text-center rounded-xl border-transparent"
-          style={{ marginTop: "68px" }}
+          className="py-4 px-4 w-full border bg-gray-100 text-black hover:bg-blue-100 text-center rounded-xl border-transparent"
+          style={{ marginTop: "68px", width: "90vw" }}
         >
           {cards[currentSlide].uploadedTime}
         </p>
