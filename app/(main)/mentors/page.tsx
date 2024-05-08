@@ -8,7 +8,20 @@ import React, { useState, useEffect } from "react";
 import styles from "../mentors/mainpage.module.css";
 import Link from "next/link";
 
-const Card = ({ card, onCardSelect }) => (
+interface CardProps {
+  card: {
+    id: number;
+    title: string;
+    text: string;
+    detail: string;
+    image: string;
+    uploadedTime: string;
+  };
+  onCardSelect: () => void;
+  isCenter: boolean;
+}
+
+const Card: React.FC<CardProps> = ({ card, onCardSelect }) => (
   <div className={styles.card} onClick={onCardSelect}>
     <img src={card.image} alt="프로필 이미지" />
     <div className={styles.cardcontent}>
@@ -16,8 +29,6 @@ const Card = ({ card, onCardSelect }) => (
       <p>{card.title}</p>
       <p>{card.text}</p>
       <p className={styles.hiddensm}>{card.detail}</p>
-
-      <div className={styles.hiddensm}></div>
     </div>
   </div>
 );
@@ -76,10 +87,9 @@ const MainPage = () => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const handleCardSelect = (index) => {
+  const handleCardSelect = (index: number) => {
     setCurrentSlide(index);
     if (index === currentSlide) {
-      router.push(`/mentors/1/reserve`);
     }
   };
 
@@ -90,7 +100,11 @@ const MainPage = () => {
         style={{ width: "275px" }}
         onClick={() => handleCardSelect(index)}
       >
-        <Card card={card} isCenter={index === currentSlide} />
+        <Card
+          card={card}
+          onCardSelect={() => handleCardSelect(index)} // 여기에서 onCardSelect prop을 전달합니다.
+          isCenter={index === currentSlide}
+        />
       </div>
     </Link>
   ));
