@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { Card as UICard } from "@/components/ui/card";
 import React, { useState } from "react";
 import styles from "../mentors/mainpage.module.css";
+import Link from "next/link";
 
 const Card = ({ card, onCardSelect, isCenter }) => (
   <UICard
@@ -71,13 +72,15 @@ const MainPage = () => {
   };
 
   const cardElements = cards.map((card, index) => (
-    <div key={card.id} className="slide relative" style={{ width: "275px" }}>
-      <Card
-        card={card}
-        onCardSelect={() => handleCardSelect(index)}
-        isCenter={index === currentSlide}
-      />
-    </div>
+    <Link key={card.id} href={`/mentors/1/reserve`} passHref>
+      <div
+        className="slide relative"
+        style={{ width: "275px" }}
+        onClick={() => setCurrentSlide(index)}
+      >
+        <Card card={card} isCenter={index === currentSlide} />
+      </div>
+    </Link>
   ));
 
   const slideWidth = 275 + 20; // 카드 너비 + 마진
@@ -91,7 +94,11 @@ const MainPage = () => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
+    <main
+      className={
+        "flex flex-col items-center justify-center min-h-screen bg-white p-4"
+      }
+    >
       <div className="header"></div>
       <p className="my-4 py-4 px-4 w-full border bg-gray-100 text-black hover:bg-blue-100 text-center rounded-xl border-transparent">
         {cards[currentSlide].uploadedTime}
