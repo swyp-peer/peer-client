@@ -8,10 +8,25 @@ import styles from "../counsels/page.module.css";
 import Link from "next/link";
 
 const CounselPage = () => {
+  const [view, setView] = useState("current");
+
   return (
     <main className={styles.mainContainer}>
-      나의 상담 신청 내역을 조회하는 페이지(커피챗 앱의 나의 커피챗 페이지라고
-      생각하면 될듯)
+      <div className={styles.buttonContainer}>
+        <Button className={styles.navButton} onClick={() => setView("past")}>
+          지난 상담
+        </Button>
+        <Button className={styles.navButton} onClick={() => setView("current")}>
+          현재 상담
+        </Button>
+      </div>
+      <div className={styles.content}>
+        {view === "current" ? (
+          <div>현재 상담 내역을 여기에 표시합니다.</div>
+        ) : (
+          <div>지난 상담 내역을 여기에 표시합니다.</div>
+        )}
+      </div>
     </main>
   );
 };
